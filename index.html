@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Hesap Makinası front-end</title>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.5/web3.min.js"></script>
+  <script language="javascript" type="text/javascript" src="abi.js"></script>
+  <style type="text/css">
+  #main {
+    margin: auto;
+    width: 800px;
+}
+  #main input {
+    text-align: center;
+}
+  #main .text {
+    text-align: center;
+    background-color: #0D0CA4;
+}
+  tr td input {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    margin-left: 121px;
+}
+  #main .tuslar .yazi {
+    font-size: 96px;
+}
+  </style>
+</head>
+  <body bgcolor="#D5F03C">
+
+    <script>
+        var HesapMakinasi;
+        var HesapMakinasiAddress = "0xFe0efD2558b6Dd9cdfd0BF462Ff89B7359C64b89";
+
+        async function loadWeb3(){
+            if(window.ethereum){
+                window.web3 = new Web3(window.ethereum);
+                window.ethereum.enable();
+            }
+        }
+
+        async function loadContract(){
+            return await new window.web3.eth.Contract(hesapmakinasiAbi, HesapMakinasiAddress);
+        }
+
+        async function getCurrentAccount(accountindex){
+
+            var accounts = await ethereum.request({method: "eth_requestAccounts"});
+            /*
+            var accounts1 = await window.web3.eth.getAccounts();
+            document.getElementById("account_number").text = accounts1[0];
+            */
+           console.log(accounts)
+            return accounts[accountindex];
+        }
+
+        async function load() {
+            await loadWeb3();
+            window.contract = await loadContract();
+
+        }
+
+        async function SonucGetir() {
+
+        var respond = await window.contract.methods.getResult().call({from: await getCurrentAccount(0)});
+        console.log(respond);
+        document.getElementById("sonuc").value = respond;
+        
+        }
+
+        async function topla(){
+            var sayi1 = document.getElementById("sayi1").value;
+            var sayi2 = document.getElementById("sayi2").value;
+
+            await contract.methods.add(sayi1, sayi2).send({from: await getCurrentAccount(0)});
+            await SonucGetir();
+        }
+        async function cikar(){
+            var sayi1 = document.getElementById("sayi1").value;
+            var sayi2 = document.getElementById("sayi2").value;
+
+            await contract.methods.sub(sayi1, sayi2).send({from: await getCurrentAccount(0)});
+            await SonucGetir();
+        }
+        async function bolme(){
+            var sayi1 = document.getElementById("sayi1").value;
+            var sayi2 = document.getElementById("sayi2").value;
+
+            await contract.methods.div(sayi1, sayi2).send({from: await getCurrentAccount(0)});
+            await SonucGetir();
+        }
+        async function carpma(){
+            var sayi1 = document.getElementById("sayi1").value;
+            var sayi2 = document.getElementById("sayi2").value;
+
+            await contract.methods.mul(sayi1, sayi2).send({from: await getCurrentAccount(0)});
+            await SonucGetir();
+        }
+        window.addEventListener('load', function() {
+            load();
+        });
+
+        
+    </script>
+<div id="main">
+	<div class="text">
+    <input type="text" id="sayi1" name="sayi1">
+    <br>
+    <input type="text" id="sayi2" name="sayi2">
+    <br>
+    <input type="text" id="sonuc" name="sonuc">
+    <br>
+		</div>
+	<div class="tuslar">
+    <div id="account_number"></div>
+    <table width="800" height="122" border="1" cellpadding="5" cellspacing="10">
+      <tbody>
+        <tr>
+          <td><input type="button" onclick="topla();" value="topla"></td>
+          <td><input type="button" onclick="cikar();" value="cikar"></td>
+        </tr>
+        <tr>
+          <td><input type="button" onclick="bolme();" value="bolme"></td>
+          <td><input type="button" onclick="carpma();" value="carpma"></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+		<div class="yazi">
+		<p>solidity hesap makinesi</p>
+		
+		</div>
+    
+</div>
+</div>
+
+
+
+
+
+</body>
+</html>
