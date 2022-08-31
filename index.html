@@ -33,21 +33,24 @@
 
     <script>
         var HesapMakinasi;
-        var HesapMakinasiAddress = "0xFe0efD2558b6Dd9cdfd0BF462Ff89B7359C64b89";
+        var HesapMakinasiAddress = "add your address here";
 
-        async function loadWeb3(){
-            if(window.ethereum){
+        async function loadWeb3()
+	{
+            if(window.ethereum)
+	    {
                 window.web3 = new Web3(window.ethereum);
                 window.ethereum.enable();
             }
         }
 
-        async function loadContract(){
+        async function loadContract()
+	{
             return await new window.web3.eth.Contract(hesapmakinasiAbi, HesapMakinasiAddress);
         }
 
-        async function getCurrentAccount(accountindex){
-
+        async function getCurrentAccount(accountindex)
+	{
             var accounts = await ethereum.request({method: "eth_requestAccounts"});
             /*
             var accounts1 = await window.web3.eth.getAccounts();
@@ -57,28 +60,29 @@
             return accounts[accountindex];
         }
 
-        async function load() {
+        async function load() 
+	{
             await loadWeb3();
             window.contract = await loadContract();
-
         }
 
-        async function SonucGetir() {
-
-        var respond = await window.contract.methods.getResult().call({from: await getCurrentAccount(0)});
-        console.log(respond);
-        document.getElementById("sonuc").value = respond;
-        
+        async function SonucGetir() 
+	{
+	    var respond = await window.contract.methods.getResult().call({from: await getCurrentAccount(0)});
+	    console.log(respond);
+	    document.getElementById("sonuc").value = respond;        
         }
 
-        async function topla(){
+        async function topla()
+	{
             var sayi1 = document.getElementById("sayi1").value;
             var sayi2 = document.getElementById("sayi2").value;
 
             await contract.methods.add(sayi1, sayi2).send({from: await getCurrentAccount(0)});
             await SonucGetir();
         }
-        async function cikar(){
+        async function cikar()
+	{
             var sayi1 = document.getElementById("sayi1").value;
             var sayi2 = document.getElementById("sayi2").value;
 
@@ -92,7 +96,8 @@
             await contract.methods.div(sayi1, sayi2).send({from: await getCurrentAccount(0)});
             await SonucGetir();
         }
-        async function carpma(){
+        async function carpma()
+	{
             var sayi1 = document.getElementById("sayi1").value;
             var sayi2 = document.getElementById("sayi2").value;
 
@@ -101,19 +106,17 @@
         }
         window.addEventListener('load', function() {
             load();
-        });
-
-        
+        });       
     </script>
-<div id="main">
-	<div class="text">
-    <input type="text" id="sayi1" name="sayi1">
-    <br>
-    <input type="text" id="sayi2" name="sayi2">
-    <br>
-    <input type="text" id="sonuc" name="sonuc">
-    <br>
-		</div>
+	<div id="main">
+		<div class="text">
+	    <input type="text" id="sayi1" name="sayi1">
+	    <br>
+	    <input type="text" id="sayi2" name="sayi2">
+	    <br>
+	    <input type="text" id="sonuc" name="sonuc">
+	    <br>
+	</div>
 	<div class="tuslar">
     <div id="account_number"></div>
     <table width="800" height="122" border="1" cellpadding="5" cellspacing="10">
@@ -129,17 +132,10 @@
       </tbody>
     </table>
     <br>
-		<div class="yazi">
-		<p>solidity hesap makines</p>
-		
-		</div>
-    
+	<div class="yazi">
+	<p>solidity hesap makinesi</p>		
+	</div>   
 </div>
 </div>
-
-
-
-
-
 </body>
 </html>
